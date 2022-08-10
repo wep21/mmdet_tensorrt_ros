@@ -12,6 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include <algorithm>
+#include <memory>
+#include <string>
+#include <utility>
+#include <vector>
+
 #include <mmdet_tensorrt_yolox/mmdet_tensorrt_yolox_node.hpp>
 
 #include <ament_index_cpp/get_package_prefix.hpp>
@@ -19,12 +25,6 @@
 #include <vision_msgs/msg/object_hypothesis_with_pose.hpp>
 #include <vision_msgs/msg/pose2_d.hpp>
 #include <vision_msgs/msg/point2_d.hpp>
-
-#include <algorithm>
-#include <memory>
-#include <string>
-#include <utility>
-#include <vector>
 
 namespace mmdet_tensorrt_yolox
 {

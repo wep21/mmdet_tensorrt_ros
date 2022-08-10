@@ -12,6 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include <memory>
+#include <string>
+
 #include <ament_index_cpp/get_package_prefix.hpp>
 #include <rclcpp/rclcpp.hpp>
 #include <mmdet_tensorrt_yolox/mmdet_tensorrt_yolox.hpp>
@@ -24,12 +27,9 @@ namespace fs = ::std::filesystem;
 namespace fs = ::std::experimental::filesystem;
 #endif
 
-#include <memory>
-#include <string>
-
 namespace mmdet_tensorrt_yolox
 {
-  class YoloXSingleImageInferenceNode : public rclcpp::Node
+  class YoloXSingleImageInferenceNode : public rclcpp::Node // NOLINT
   {
 public:
     explicit YoloXSingleImageInferenceNode(const rclcpp::NodeOptions & node_options)

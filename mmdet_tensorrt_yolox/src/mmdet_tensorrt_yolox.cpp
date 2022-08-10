@@ -12,13 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <mmdet_tensorrt_yolox/mmdet_tensorrt_yolox.hpp>
-
 #include <algorithm>
 #include <functional>
 #include <memory>
 #include <string>
 #include <vector>
+
+#include <mmdet_tensorrt_yolox/mmdet_tensorrt_yolox.hpp>
 
 namespace mmdet_tensorrt_yolox
 {
