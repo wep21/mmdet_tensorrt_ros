@@ -1,0 +1,13 @@
+repositories:
+  tensorrt_common:
+    type: git
+    url: https://github.com/tier4/tensorrt_common.git
+    version: main
+  cuda_utils:
+    type: git
+    url: https://github.com/tier4/cuda_utils.git
+    version: main
+  mmdeploy_tensorrt_ops:
+    type: git
+    url: https://github.com/wep21/mmdeploy_tensorrt_ops.git
+    version: main

@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>mmdet_tensorrt_yolox</name>
+  <version>0.0.1</version>
+  <description>tensorrt library implementation for mmdet yolox</description>
+
+  <author email="daisuke.nishimatsu@tier4.jp">Daisuke Nishimatsu</author>
+  <maintainer email="daisuke.nishimatsu@tier4.jp">Daisuke Nishimatsu</maintainer>
+
+  <license>Apache License 2.0</license>
+
+  <buildtool_depend>ament_cmake_auto</buildtool_depend>
+  <buildtool_depend>cudnn_cmake_module</buildtool_depend>
+  <buildtool_depend>tensorrt_cmake_module</buildtool_depend>
+
+  <buildtool_export_depend>cudnn_cmake_module</buildtool_export_depend>
+  <buildtool_export_depend>tensorrt_cmake_module</buildtool_export_depend>
+
+  <depend>ament_download</depend>
+  <depend>ament_index_cpp</depend>
+  <depend>cuda_utils</depend>
+  <depend>cv_bridge</depend>
+  <depend>image_transport</depend>
+  <depend>libopencv-dev</depend>
+  <depend>mmdeploy_tensorrt_ops</depend>
+  <depend>rclcpp</depend>
+  <depend>rclcpp_components</depend>
+  <depend>sensor_msgs</depend>
+  <depend>tensorrt_common</depend>
+  <depend>vision_msgs</depend>
+
+  <test_depend>ament_lint_auto</test_depend>
+  <test_depend>ament_lint_common</test_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>
