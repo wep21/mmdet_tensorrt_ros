@@ -21,3 +21,11 @@ rosdep install --from-paths src --ignore-src -y
 ```bash
 colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release --symlink-install --packages-up-to mmdet_tensorrt_yolox
 ```
+
+## Supported model
+
+* [YOLOX](mmdet_tensorrt_yolox/docs/README.md)
+
+## Reference
+
+*  [YOLOX: Exceeding YOLO Series in 2021](https://arxiv.org/abs/2107.08430)
