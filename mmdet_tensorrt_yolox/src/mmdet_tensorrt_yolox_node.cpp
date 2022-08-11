@@ -12,19 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include <ament_index_cpp/get_package_prefix.hpp>
+#include <mmdet_tensorrt_yolox/mmdet_tensorrt_yolox_node.hpp>
+
+#include <vision_msgs/msg/object_hypothesis.hpp>
+#include <vision_msgs/msg/object_hypothesis_with_pose.hpp>
+#include <vision_msgs/msg/point2_d.hpp>
+#include <vision_msgs/msg/pose2_d.hpp>
+
 #include <algorithm>
 #include <memory>
 #include <string>
 #include <utility>
 #include <vector>
-
-#include <mmdet_tensorrt_yolox/mmdet_tensorrt_yolox_node.hpp>
-
-#include <ament_index_cpp/get_package_prefix.hpp>
-#include <vision_msgs/msg/object_hypothesis.hpp>
-#include <vision_msgs/msg/object_hypothesis_with_pose.hpp>
-#include <vision_msgs/msg/pose2_d.hpp>
-#include <vision_msgs/msg/point2_d.hpp>
 
 namespace mmdet_tensorrt_yolox
 {
@@ -39,38 +39,32 @@ MmdetTrtYoloxNode::MmdetTrtYoloxNode(const rclcpp::NodeOptions & node_options)
     rclcpp::shutdown();
   }
   trt_yolox_ = std::make_unique<mmdet_tensorrt_yolox::MmdetTrtYolox>(
-    declare_parameter("model_path", ""),
-    declare_parameter("precision", "fp32"),
-    declare_parameter("score_threshold", 0.5), "",
-    tensorrt_common::BatchConfig{1, 1, 1}, 1 << 30,
-      std::vector<std::string>{
+    declare_parameter("model_path", ""), declare_parameter("precision", "fp32"),
+    declare_parameter("score_threshold", 0.5), "", tensorrt_common::BatchConfig{1, 1, 1}, 1 << 30,
+    std::vector<std::string>{
       ament_index_cpp::get_package_prefix("mmdeploy_tensorrt_ops") +
-      "/lib/mmdeploy_tensorrt_ops/libmmdeploy_tensorrt_ops.so"
-      }
-  );
+      "/lib/mmdeploy_tensorrt_ops/libmmdeploy_tensorrt_ops.so"});
 
-  timer_ = rclcpp::create_timer(
-    this, get_clock(), 100ms, std::bind(&MmdetTrtYoloxNode::onConnect, this));
+  timer_ =
+    rclcpp::create_timer(this, get_clock(), 100ms, std::bind(&MmdetTrtYoloxNode::onConnect, this));
 
   detections_pub_ =
-    this->create_publisher<vision_msgs::msg::Detection2DArray>(
-    "~/out/detections", 1);
+    this->create_publisher<vision_msgs::msg::Detection2DArray>("~/out/detections", 1);
   image_pub_ = image_transport::create_publisher(this, "~/out/image");
 }
 
 void MmdetTrtYoloxNode::onConnect()
 {
   using std::placeholders::_1;
-  if (detections_pub_->get_subscription_count() == 0 &&
+  if (
+    detections_pub_->get_subscription_count() == 0 &&
     detections_pub_->get_intra_process_subscription_count() == 0 &&
-    image_pub_.getNumSubscribers() == 0)
-  {
+    image_pub_.getNumSubscribers() == 0) {
     image_sub_.shutdown();
   } else if (!image_sub_) {
     image_sub_ = image_transport::create_subscription(
       this, "~/in/image", std::bind(&MmdetTrtYoloxNode::onImage, this, _1), "raw",
-      rmw_qos_profile_sensor_data
-    );
+      rmw_qos_profile_sensor_data);
   }
 }
 
@@ -96,23 +90,18 @@ void MmdetTrtYoloxNode::onImage(const sensor_msgs::msg::Image::ConstSharedPtr ms
   for (const auto & yolox_object : objects.at(0)) {
     vision_msgs::msg::Detection2D detection{};
     detection.bbox.center = vision_msgs::build<vision_msgs::msg::Pose2D>()
-      .position(
-      vision_msgs::build<vision_msgs::msg::Point2D>()
-      .x(yolox_object.x_offset + yolox_object.width / 2)
-      .y(yolox_object.y_offset + yolox_object.height / 2)
-      )
-      .theta(0.0);
+                              .position(vision_msgs::build<vision_msgs::msg::Point2D>()
+                                          .x(yolox_object.x_offset + yolox_object.width / 2)
+                                          .y(yolox_object.y_offset + yolox_object.height / 2))
+                              .theta(0.0);
     detection.bbox.size_x = yolox_object.width;
     detection.bbox.size_y = yolox_object.height;
     detection.results.emplace_back(
       vision_msgs::build<vision_msgs::msg::ObjectHypothesisWithPose>()
-      .hypothesis(
-        vision_msgs::build<vision_msgs::msg::ObjectHypothesis>()
-        .class_id(label_map_[yolox_object.type])
-        .score(yolox_object.score)
-      )
-      .pose(geometry_msgs::msg::PoseWithCovariance{})
-    );
+        .hypothesis(vision_msgs::build<vision_msgs::msg::ObjectHypothesis>()
+                      .class_id(label_map_[yolox_object.type])
+                      .score(yolox_object.score))
+        .pose(geometry_msgs::msg::PoseWithCovariance{}));
     detection.header = msg->header;
     out_detections.detections.emplace_back(detection);
     const auto left = std::max(0, static_cast<int>(yolox_object.x_offset));

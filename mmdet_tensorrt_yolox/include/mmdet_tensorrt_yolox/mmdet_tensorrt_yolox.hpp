@@ -15,15 +15,14 @@
 #ifndef MMDET_TENSORRT_YOLOX__MMDET_TENSORRT_YOLOX_HPP_
 #define MMDET_TENSORRT_YOLOX__MMDET_TENSORRT_YOLOX_HPP_
 
-#include <memory>
-#include <string>
-#include <vector>
-
 #include <cuda_utils/cuda_unique_ptr.hpp>
 #include <cuda_utils/stream_unique_ptr.hpp>
 #include <opencv2/opencv.hpp>
-
 #include <tensorrt_common/tensorrt_common.hpp>
+
+#include <memory>
+#include <string>
+#include <vector>
 
 namespace mmdet_tensorrt_yolox
 {
@@ -48,8 +47,7 @@ class MmdetTrtYolox
 {
 public:
   MmdetTrtYolox(
-    const std::string & model_path, const std::string & precision,
-    const float score_threshold,
+    const std::string & model_path, const std::string & precision, const float score_threshold,
     const std::string & cache_dir = "",
     const tensorrt_common::BatchConfig & batch_config = {1, 1, 1},
     const size_t max_workspace_size = (1 << 30),

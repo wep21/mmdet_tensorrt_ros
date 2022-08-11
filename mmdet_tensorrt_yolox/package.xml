@@ -29,6 +29,7 @@
   <depend>tensorrt_common</depend>
   <depend>vision_msgs</depend>
 
+  <test_depend>ament_clang_format</test_depend>
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>
 

@@ -15,6 +15,15 @@
 #ifndef MMDET_TENSORRT_YOLOX__MMDET_TENSORRT_YOLOX_NODE_HPP_
 #define MMDET_TENSORRT_YOLOX__MMDET_TENSORRT_YOLOX_NODE_HPP_
 
+#include <image_transport/image_transport.hpp>
+#include <mmdet_tensorrt_yolox/mmdet_tensorrt_yolox.hpp>
+#include <opencv2/opencv.hpp>
+#include <rclcpp/rclcpp.hpp>
+
+#include <sensor_msgs/msg/image.hpp>
+#include <std_msgs/msg/header.hpp>
+#include <vision_msgs/msg/detection2_d_array.hpp>
+
 #include <cv_bridge/cv_bridge.h>
 
 #include <chrono>
@@ -23,15 +32,6 @@
 #include <memory>
 #include <string>
 #include <vector>
-
-#include <image_transport/image_transport.hpp>
-#include <opencv2/opencv.hpp>
-#include <rclcpp/rclcpp.hpp>
-#include <mmdet_tensorrt_yolox/mmdet_tensorrt_yolox.hpp>
-
-#include <vision_msgs/msg/detection2_d_array.hpp>
-#include <sensor_msgs/msg/image.hpp>
-#include <std_msgs/msg/header.hpp>
 
 namespace mmdet_tensorrt_yolox
 {
@@ -48,8 +48,7 @@ private:
   bool readLabelFile(const std::string & label_path);
 
   image_transport::Publisher image_pub_;
-  rclcpp::Publisher<vision_msgs::msg::Detection2DArray>::SharedPtr
-    detections_pub_;
+  rclcpp::Publisher<vision_msgs::msg::Detection2DArray>::SharedPtr detections_pub_;
 
   image_transport::Subscriber image_sub_;
 

@@ -87,7 +87,11 @@ ament_download(https://github.com/wep21/mmdeploy_model_zoo/raw/main/yolox/yolox-
 )
 
 if(BUILD_TESTING)
+  set(ament_cmake_clang_format_CONFIG_FILE ${CMAKE_CURRENT_SOURCE_DIR}/.clang-format)
   find_package(ament_lint_auto REQUIRED)
+  list(APPEND AMENT_LINT_AUTO_EXCLUDE
+    ament_cmake_uncrustify
+  )
   ament_lint_auto_find_test_dependencies()
 endif()
 
