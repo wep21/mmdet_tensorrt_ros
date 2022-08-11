@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="image_path" default="$(find-pkg-share mmdet_tensorrt_yolox)/data/dog.jpg" />
+  <arg name="yolox_type" default="yolox-s" />
+  <arg name="model_path" default="$(find-pkg-share mmdet_tensorrt_yolox)/data/$(var yolox_type).onnx" />
+  <arg name="label_path" default="$(find-pkg-share mmdet_tensorrt_yolox)/data/coco.names" />
+  <arg name="score_threshold" default="0.3" />
+  <arg name="container" default="" />
+
+  <group if="$(eval &quot;'$(var container)'==''&quot;)">
+    <node_container
+        pkg="rclcpp_components"
+        exec="component_container"
+        name="detection_container"
+        namespace="">
+        <composable_node
+        pkg="mmdet_tensorrt_yolox"
+        plugin="mmdet_tensorrt_yolox::MmdetTrtYoloxNode"
+        name="mmdet_tensorrt_yolox">
+        <param name="model_path" value="$(var model_path)" />
+        <param name="label_path" value="$(var label_path)" />
+        <param name="score_threshold" value="$(var score_threshold)" />
+        </composable_node>
+    </node_container>
+  </group>
+
+  <group unless="$(eval &quot;'$(var container)'==''&quot;)">
+    <load_composable_node target="$(var container)">
+        <composable_node
+        pkg="mmdet_tensorrt_yolox"
+        plugin="mmdet_tensorrt_yolox::MmdetTrtYoloxNode"
+        name="mmdet_tensorrt_yolox">
+        <param name="model_path" value="$(var model_path)" />
+        <param name="label_path" value="$(var label_path)" />
+        <param name="score_threshold" value="$(var score_threshold)" />
+        </composable_node>
+    </load_composable_node>
+  </group>
+
+</launch>
