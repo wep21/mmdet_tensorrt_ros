@@ -49,7 +49,7 @@ MmdetTrtYoloxNode::MmdetTrtYoloxNode(const rclcpp::NodeOptions & node_options)
     rclcpp::create_timer(this, get_clock(), 100ms, std::bind(&MmdetTrtYoloxNode::onConnect, this));
 
   detections_pub_ =
-    this->create_publisher<vision_msgs::msg::Detection2DArray>("~/out/detections", 1);
+    this->create_publisher<vision_msgs::msg::Detection2DArray>("~/out/detection", 1);
   image_pub_ = image_transport::create_publisher(this, "~/out/image");
 }
 
