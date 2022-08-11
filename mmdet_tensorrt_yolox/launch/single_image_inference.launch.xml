@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="image_path" default="$(find-pkg-share mmdet_tensorrt_yolox)/data/dog.jpg" />
+  <arg name="yolox_type" default="yolox-s" />
+  <arg name="model_path" default="$(find-pkg-share mmdet_tensorrt_yolox)/data/$(var yolox_type).onnx" />
+
+  <node
+    pkg="mmdet_tensorrt_yolox"
+    exec="yolox_single_image_inferece"
+    name="yolox_single_image_inferece"
+    output="screen">
+    <param name="image_path" value="$(var image_path)" />
+    <param name="model_path" value="$(var model_path)" />
+  </node>
+
+</launch>
